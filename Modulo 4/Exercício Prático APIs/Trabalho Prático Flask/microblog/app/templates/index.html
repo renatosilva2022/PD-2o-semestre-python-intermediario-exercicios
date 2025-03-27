@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Bem-vindo ao Microblog</h1>
+{% if current_user.is_authenticated %}
+    <p>{{ current_user.username }} ({{ current_user.email }})</p>
+    {% if current_user.foto %}
+        <img src="{{ current_user.foto }}" alt="Foto de Perfil" width="100">
+    {% endif %}
+    {% if current_user.bio %}
+        <p>{{ current_user.bio }}</p>
+    {% endif %}
+    <a href="{{ url_for('post') }}">Escrever Post</a>
+    <h2>Últimos Posts</h2>
+    {% for post in posts %}
+        <div>
+            <p><strong>{{ post.author.username }}</strong>: {{ post.body }}</p>
+            <small>{{ post.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</small>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>Faça login ou cadastre-se para ver os posts.</p>
+{% endif %}
+{% endblock %}
